@@ -12,7 +12,7 @@ pipeline {
         }
         stage('maven run') {
             steps {
-                sh 'nohup java -jar /var/lib/jenkins/workspace/FACCAT/target/demo-0.0.1-SNAPSHOT.jar &'
+                sh 'nohup java -jar /var/lib/jenkins/workspace/FACCAT/target/projetofaccat-0.0.1-SNAPSHOT.jar &'
                
             }
         }
