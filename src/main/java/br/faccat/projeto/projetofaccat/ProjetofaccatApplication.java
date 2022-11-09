@@ -14,6 +14,7 @@ public class ProjetofaccatApplication {
         
         @Bean
         public BCryptPasswordEncoder passwordEncoder() {
+            System.out.println("ALTERADO 22:13");
             return new BCryptPasswordEncoder();
         }
 
