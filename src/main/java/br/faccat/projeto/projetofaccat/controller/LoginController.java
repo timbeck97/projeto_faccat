@@ -13,6 +13,8 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Date;
@@ -39,6 +41,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
  */
 @RestController
 @RequestMapping(value = "/api")
+@Api(value = "Rest API - Contribuintes")
 public class LoginController {
     
     private final UserService userService;
@@ -48,26 +51,32 @@ public class LoginController {
     }
     
     @GetMapping(value = "/users")
+    @ApiOperation(value = "Retorna uma lista com todos os usuarios cadastrados no banco de dados")
     public ResponseEntity<List<User>> getUsers(){
        return ResponseEntity.ok().body(userService.getUsers());
     }
     
     @PostMapping(value = "/users")
+    @ApiOperation(value = "Adiciona um usuario no banco de dados")
     public ResponseEntity<User> saveUser(@RequestBody User user){
         URI uri=URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
         return ResponseEntity.created(uri).body(userService.saveUser(user));
     }
     
+    @PostMapping(value = "/role")
+    @ApiOperation(value = "Adiciona uma role nova no banco de dados")
     public ResponseEntity<Role> saveRole(@RequestBody Role role){
         URI uri=URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/role/save").toUriString());
         return ResponseEntity.created(uri).body(userService.saveRole(role));
     }
     
     @PostMapping(value = "/role/addtouser")
+    @ApiOperation(value = "Vincula uma role a um usuario")
     public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserForm form){
         userService.addRoleToUser(form.getUsername(), form.getRoleName());
         return ResponseEntity.ok().build();
     }
+    @ApiOperation(value = "Solicita um novo token a partir do refresh token")
     @GetMapping(value = "/token/refreshtoken")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException{
         String authorizationHeader=request.getHeader(AUTHORIZATION);
