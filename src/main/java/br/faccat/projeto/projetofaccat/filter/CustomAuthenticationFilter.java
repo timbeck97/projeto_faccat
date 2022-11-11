@@ -73,7 +73,23 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         tokens.put("access_token", access_token);
         tokens.put("refresh_token", refresh_token);
         response.setContentType(APPLICATION_JSON_VALUE);
+        this.liberacaoCors(response);
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+        
+    }
+     private void liberacaoCors(HttpServletResponse response) {
+        if(response.getHeader("Access-Control-Allow-Origin")==null){
+            response.addHeader("Access-Control-Allow-Origin", "*");
+        }
+        if(response.getHeader("Access-Control-Allow-Headers")==null){
+            response.addHeader("Access-Control-Allow-Headers", "*");
+        }
+        if(response.getHeader("Access-Control-Request-Headers")==null){
+            response.addHeader("Access-Control-Request-Headers", "*");
+        }
+        if(response.getHeader("Access-Control-Allow-Methods")==null){
+            response.addHeader("Access-Control-Allow-Methods", "*");
+        }
         
     }
     
