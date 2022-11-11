@@ -20,14 +20,14 @@ public class ProjetofaccatApplication {
             System.out.println("ALTERADO 22:13");
             return new BCryptPasswordEncoder();
         }
-         @Bean
-        public WebMvcConfigurer corsConfigurer() {
-            return new WebMvcConfigurerAdapter() {
-                @Override
-                public void addCorsMappings(CorsRegistry registry) {
-                    registry.addMapping("/**").allowedOrigins("http://localhost:5500");
-                }
-            };
-        }
+//         @Bean
+//        public WebMvcConfigurer corsConfigurer() {
+//            return new WebMvcConfigurerAdapter() {
+//                @Override
+//                public void addCorsMappings(CorsRegistry registry) {
+//                    registry.addMapping("/**").allowedOrigins("http://localhost:5500");
+//                }
+//            };
+//        }
 
 }
