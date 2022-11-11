@@ -40,6 +40,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter{
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        liberacaoCors(response);
         if(request.getServletPath().equals("/api/login") || request.getServletPath().equals("/api/token/refreshtoken")){
             filterChain.doFilter(request, response);
         }else{
@@ -79,6 +80,21 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter{
                 filterChain.doFilter(request, response);
             }
         }
+    }
+    private void liberacaoCors(HttpServletResponse response) {
+        if(response.getHeader("Access-Control-Allow-Origin")==null){
+            response.addHeader("Access-Control-Allow-Origin", "*");
+        }
+        if(response.getHeader("Access-Control-Allow-Headers")==null){
+            response.addHeader("Access-Control-Allow-Headers", "*");
+        }
+        if(response.getHeader("Access-Control-Request-Headers")==null){
+            response.addHeader("Access-Control-Request-Headers", "*");
+        }
+        if(response.getHeader("Access-Control-Allow-Methods")==null){
+            response.addHeader("Access-Control-Allow-Methods", "*");
+        }
+        
     }
     
 }
