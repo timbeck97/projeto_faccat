@@ -15,7 +15,12 @@ public class ProjetofaccatApplication implements WebMvcConfigurer{
 		SpringApplication.run(ProjetofaccatApplication.class, args);
 	}
         
-       @Override
+        @Bean
+        public BCryptPasswordEncoder passwordEncoder() {
+            System.out.println("ALTERADO 22:13");
+            return new BCryptPasswordEncoder();
+        }
+        @Override
         public void addCorsMappings(CorsRegistry registry) {
             registry.addMapping("/**")
                     .allowedMethods("*")
