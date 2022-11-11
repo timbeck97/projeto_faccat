@@ -5,6 +5,7 @@
  */
 package br.faccat.projeto.projetofaccat.filter;
 
+import br.faccat.projeto.projetofaccat.dto.LoginDTO;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,6 +13,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -42,12 +45,18 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response){
-        String username=request.getParameter("username");
-        String password=request.getParameter("password");
+       
+        LoginDTO usuario=new LoginDTO();
+        try {
 
-        UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(username, password);
-        return authenticationManager.authenticate(authenticationToken); 
-        
+              usuario = new ObjectMapper().readValue(request.getInputStream(), LoginDTO.class);
+                
+         } catch (IOException ex) {
+             Logger.getLogger(CustomAuthenticationFilter.class.getName()).log(Level.SEVERE, null, ex);
+         }
+
+         UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(usuario.getUsername(), usuario.getPassword()); 
+         return authenticationManager.authenticate(authenticationToken);
     }
     
     @Override
