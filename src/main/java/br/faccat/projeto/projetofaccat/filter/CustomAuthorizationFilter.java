@@ -40,7 +40,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter{
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        liberacaoCors(response);
+        //liberacaoCors(response);
         if(request.getServletPath().equals("/api/login") || request.getServletPath().equals("/api/token/refreshtoken")){
             filterChain.doFilter(request, response);
         }else{
