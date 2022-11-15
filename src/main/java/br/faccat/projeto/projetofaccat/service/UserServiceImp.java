@@ -8,6 +8,7 @@ package br.faccat.projeto.projetofaccat.service;
 
 import br.faccat.projeto.projetofaccat.model.Role;
 import br.faccat.projeto.projetofaccat.model.User;
+import br.faccat.projeto.projetofaccat.repository.AddressRepository;
 import br.faccat.projeto.projetofaccat.repository.RoleRepository;
 import br.faccat.projeto.projetofaccat.repository.UserRepository;
 import java.util.ArrayList;
@@ -34,12 +35,14 @@ public class UserServiceImp implements UserService, UserDetailsService {
     
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final AddressRepository addressRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     
-    public UserServiceImp(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder){
+    public UserServiceImp(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder, AddressRepository addressRepository1){
         this.userRepository=userRepository;
         this.roleRepository=roleRepository;
         this.passwordEncoder=passwordEncoder;
+        this.addressRepository=addressRepository1;
     }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -57,6 +60,8 @@ public class UserServiceImp implements UserService, UserDetailsService {
     }
     @Override
     public User saveUser(User user) {
+        log.info("Saving new address");
+        user.setAddress(addressRepository.save(user.getAddress()));
         log.info("Saving new user {} to database",user.getUsername());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);

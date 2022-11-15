@@ -5,15 +5,19 @@
  */
 package br.faccat.projeto.projetofaccat.model;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -28,18 +32,22 @@ public class User implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    @Column(unique = true)
     private String username;
     private String password;
+    @OneToOne
+    private Address address;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
 
-    public User(String name, String username, String password) {
+    public User(String name, String username, String password, Address address) {
         this.name = name;
         this.username = username;
         this.password = password;
+        this.address=address;
     }
     
     public Long getId() {
@@ -81,6 +89,15 @@ public class User implements Serializable{
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+    
     
     
 }

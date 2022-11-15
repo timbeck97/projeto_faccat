@@ -5,6 +5,7 @@
  */
 package br.faccat.projeto.projetofaccat.controller;
 
+import br.faccat.projeto.projetofaccat.dto.UserDTO;
 import br.faccat.projeto.projetofaccat.model.Role;
 import br.faccat.projeto.projetofaccat.model.User;
 import br.faccat.projeto.projetofaccat.service.UserService;
@@ -52,15 +53,16 @@ public class LoginController {
     
     @GetMapping(value = "/users")
     @ApiOperation(value = "Retorna uma lista com todos os usuarios cadastrados no banco de dados")
-    public ResponseEntity<List<User>> getUsers(){
-       return ResponseEntity.ok().body(userService.getUsers());
+    public ResponseEntity<List<UserDTO>> getUsers(){
+       List<UserDTO> dtos= userService.getUsers().stream().map(user->new UserDTO(user)).collect(Collectors.toList());
+       return ResponseEntity.ok().body(dtos);
     }
     
     @PostMapping(value = "/users")
     @ApiOperation(value = "Adiciona um usuario no banco de dados")
-    public ResponseEntity<User> saveUser(@RequestBody User user){
+    public ResponseEntity<UserDTO> saveUser(@RequestBody User user){
         URI uri=URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
-        return ResponseEntity.created(uri).body(userService.saveUser(user));
+        return ResponseEntity.created(uri).body(new UserDTO(userService.saveUser(user)));
     }
     
     @PostMapping(value = "/role")
