@@ -58,7 +58,7 @@ public class LoginController {
        return ResponseEntity.ok().body(dtos);
     }
     
-    @PostMapping(value = "/users")
+    @PostMapping(value = "/signin")
     @ApiOperation(value = "Adiciona um usuario no banco de dados")
     public ResponseEntity<UserDTO> saveUser(@RequestBody User user){
         URI uri=URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());

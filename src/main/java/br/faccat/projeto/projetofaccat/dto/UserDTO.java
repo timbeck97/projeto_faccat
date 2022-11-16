@@ -24,7 +24,6 @@ public class UserDTO {
         this.name = user.getName();
         this.username = user.getUsername();
         this.address = new AddressDTO(user.getAddress());
-        System.out.println("roles -> "+user.getRoles().toString());
         this.roles=this.roles.join(", ", user.getRoles().stream().map(x->x.getName()).collect(Collectors.toList()));
     }
 

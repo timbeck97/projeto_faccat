@@ -12,7 +12,9 @@ import br.faccat.projeto.projetofaccat.repository.AddressRepository;
 import br.faccat.projeto.projetofaccat.repository.RoleRepository;
 import br.faccat.projeto.projetofaccat.repository.UserRepository;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -63,6 +65,8 @@ public class UserServiceImp implements UserService, UserDetailsService {
         log.info("Saving new address");
         user.setAddress(addressRepository.save(user.getAddress()));
         log.info("Saving new user {} to database",user.getUsername());
+        Role role=roleRepository.findByName("USER");
+        user.setRoles(new HashSet<Role>(Arrays.asList(role)));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
