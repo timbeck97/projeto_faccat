@@ -1,0 +1,38 @@
+2022-11-17 12:02:03.578  INFO 38571 --- [restartedMain] b.f.p.p.ProjetofaccatApplication         : Starting ProjetofaccatApplication using Java 1.8.0_321 on tim-pc with PID 38571 (/home/tim/Java/projeto_faccat/target/classes started by tim in /home/tim/Java/projeto_faccat)
+2022-11-17 12:02:03.579  INFO 38571 --- [restartedMain] b.f.p.p.ProjetofaccatApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-17 12:02:03.619  INFO 38571 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-11-17 12:02:03.619  INFO 38571 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-11-17 12:02:04.482  INFO 38571 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-11-17 12:02:04.533  INFO 38571 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 42 ms. Found 3 JPA repository interfaces.
+2022-11-17 12:02:05.070  INFO 38571 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (https)
+2022-11-17 12:02:05.080  INFO 38571 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-17 12:02:05.080  INFO 38571 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.68]
+2022-11-17 12:02:05.125  INFO 38571 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-17 12:02:05.125  INFO 38571 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1505 ms
+2022-11-17 12:02:05.449  INFO 38571 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-11-17 12:02:05.526  INFO 38571 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.12.Final
+2022-11-17 12:02:05.686  INFO 38571 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-11-17 12:02:05.759  INFO 38571 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-11-17 12:02:05.983  INFO 38571 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-11-17 12:02:06.002  INFO 38571 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL95Dialect
+2022-11-17 12:02:06.611  INFO 38571 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-11-17 12:02:06.617  INFO 38571 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-11-17 12:02:07.129  WARN 38571 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-11-17 12:02:07.340  INFO 38571 --- [restartedMain] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2022-11-17 12:02:07.536  INFO 38571 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7e2b8388, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@a808e76, org.springframework.security.web.context.SecurityContextPersistenceFilter@46e38992, org.springframework.security.web.header.HeaderWriterFilter@5e4224ee, org.springframework.web.filter.CorsFilter@4051dd71, org.springframework.security.web.authentication.logout.LogoutFilter@3f37be01, br.faccat.projeto.projetofaccat.filter.CustomAuthorizationFilter@13927e5d, br.faccat.projeto.projetofaccat.filter.CustomAuthenticationFilter@31879864, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1e70fdaa, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@82863b1, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3f7a431c, org.springframework.security.web.session.SessionManagementFilter@34304631, org.springframework.security.web.access.ExceptionTranslationFilter@20025dbe, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@3ba17163]
+2022-11-17 12:02:07.582  INFO 38571 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-11-17 12:02:07.927  INFO 38571 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (https) with context path ''
+2022-11-17 12:02:07.927  INFO 38571 --- [restartedMain] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2022-11-17 12:02:07.940  INFO 38571 --- [restartedMain] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2022-11-17 12:02:07.998  INFO 38571 --- [restartedMain] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2022-11-17 12:02:08.163  INFO 38571 --- [restartedMain] b.f.p.p.ProjetofaccatApplication         : Started ProjetofaccatApplication in 4.932 seconds (JVM running for 5.46)
+2022-11-17 12:02:24.585  INFO 38571 --- [https-jsse-nio-8080-exec-7] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-11-17 12:02:24.585  INFO 38571 --- [https-jsse-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-11-17 12:02:24.587  INFO 38571 --- [https-jsse-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-11-17 12:02:24.853  INFO 38571 --- [https-jsse-nio-8080-exec-7] b.f.p.p.service.UserServiceImp           : User found in the database: timbeck97
+2022-11-17 12:03:11.267  INFO 38571 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2022-11-17 12:03:11.271  INFO 38571 --- [Thread-5] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2022-11-17 12:03:11.272  INFO 38571 --- [Thread-5] o.a.c.c.C.[Tomcat].[localhost].[/]       : Destroying Spring FrameworkServlet 'dispatcherServlet'
+2022-11-17 12:03:11.280  INFO 38571 --- [Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-11-17 12:03:11.282  INFO 38571 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-11-17 12:03:11.285  INFO 38571 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
