@@ -6,6 +6,8 @@
 package br.faccat.projeto.projetofaccat.filter;
 
 import br.faccat.projeto.projetofaccat.dto.LoginDTO;
+import br.faccat.projeto.projetofaccat.dto.UserLoginDTO;
+import br.faccat.projeto.projetofaccat.repository.UserRepository;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,6 +23,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -34,11 +38,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @author tim
  */
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    
+
+     private UserRepository userRepository;
      private final AuthenticationManager authenticationManager;
 
-    public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public CustomAuthenticationFilter(AuthenticationManager authenticationManager, UserRepository userRepository) {
         this.authenticationManager = authenticationManager;
+        this.userRepository=userRepository;
     }
     
     
@@ -83,7 +89,9 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         tokens.put("refresh_token", refresh_token);
         response.setContentType(APPLICATION_JSON_VALUE);
         this.liberacaoCors(response);
-        new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+        UserLoginDTO dto=new UserLoginDTO(userRepository.findByUsername(user.getUsername()),access_token, refresh_token);
+        new ObjectMapper().writeValue(response.getOutputStream(), dto);
+
         
     }
      private void liberacaoCors(HttpServletResponse response) {
