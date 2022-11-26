@@ -8,6 +8,7 @@ package br.faccat.projeto.projetofaccat.filter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
@@ -29,6 +30,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 /**
  *
@@ -37,6 +39,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Configuration
 @Slf4j
 public class CustomAuthorizationFilter extends OncePerRequestFilter{
+
+    private final HandlerExceptionResolver handlerExceptionResolver;
+    public CustomAuthorizationFilter(HandlerExceptionResolver handlerExceptionResolver){
+        this.handlerExceptionResolver=handlerExceptionResolver;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -67,14 +74,16 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter{
                     
                     filterChain.doFilter(request, response);
                     
-                }catch(Exception e){
+                }catch(SignatureVerificationException e){
                     log.error("Error loging in: {}",e.getMessage());
-                    response.setHeader("error", e.getMessage());
-                    response.setStatus(HttpStatus.FORBIDDEN.value());
-                    Map<String, String> erros=new HashMap<>();
-                    erros.put("error_message", e.getMessage());
-                    response.setContentType(APPLICATION_JSON_VALUE);
-                    new ObjectMapper().writeValue(response.getOutputStream(), erros);
+                    handlerExceptionResolver.resolveException(request,response,null,e);
+                    // response.setHeader("error", e.getMessage());
+                    //response.setStatus(HttpStatus.FORBIDDEN.value());
+                    //Map<String, String> erros=new HashMap<>();
+                    //erros.put("error_message", e.getMessage());
+                    //response.setContentType(APPLICATION_JSON_VALUE);
+
+                    //new ObjectMapper().writeValue(response.getOutputStream(), erros);
                 }
             }else{
                 filterChain.doFilter(request, response);

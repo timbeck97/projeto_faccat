@@ -26,12 +26,15 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 /**
  *
@@ -41,10 +44,12 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
      private UserRepository userRepository;
      private final AuthenticationManager authenticationManager;
+     private final HandlerExceptionResolver handlerExceptionResolver;
 
-    public CustomAuthenticationFilter(AuthenticationManager authenticationManager, UserRepository userRepository) {
+    public CustomAuthenticationFilter(AuthenticationManager authenticationManager, UserRepository userRepository, HandlerExceptionResolver handlerExceptionResolver) {
         this.authenticationManager = authenticationManager;
         this.userRepository=userRepository;
+        this.handlerExceptionResolver=handlerExceptionResolver;
     }
     
     
@@ -61,8 +66,14 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
              Logger.getLogger(CustomAuthenticationFilter.class.getName()).log(Level.SEVERE, null, ex);
          }
 
-         UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(usuario.getUsername(), usuario.getPassword()); 
-         return authenticationManager.authenticate(authenticationToken);
+         UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(usuario.getUsername(), usuario.getPassword());
+        Authentication aut=null;
+        try{
+            aut=authenticationManager.authenticate(authenticationToken);
+        }catch (BadCredentialsException e){
+            handlerExceptionResolver.resolveException(request,response,null,e);
+        }
+        return aut;
     }
     
     @Override
