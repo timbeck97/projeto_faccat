@@ -29,6 +29,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import org.springframework.http.HttpStatus;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -65,6 +66,13 @@ public class LoginController {
         return ResponseEntity.created(uri).body(new UserDTO(userService.saveUser(user)));
     }
     
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping(value = "/teste")
+    public String test(){
+        return "TESTE";
+    }
+    
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = "/role")
     @ApiOperation(value = "Adiciona uma role nova no banco de dados")
     public ResponseEntity<Role> saveRole(@RequestBody Role role){
@@ -72,6 +80,7 @@ public class LoginController {
         return ResponseEntity.created(uri).body(userService.saveRole(role));
     }
     
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = "/role/addtouser")
     @ApiOperation(value = "Vincula uma role a um usuario")
     public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserForm form){
