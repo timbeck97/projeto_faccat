@@ -14,12 +14,13 @@ import org.springframework.http.HttpStatus;
  *
  * @author tim
  */
-public class ApiError {
+public class    ApiError {
     
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy hh:mm:ss")
     private LocalDateTime timestamp;
     
     private HttpStatus status;
+    private int code;
     
     private String message;
     
@@ -33,6 +34,7 @@ public class ApiError {
         this.status = status;
         this.message = message;
         this.erros = erros;
+        this.code=status.value();
     }
 
     public LocalDateTime getTimestamp() {
@@ -66,6 +68,12 @@ public class ApiError {
     public void setErros(List erros) {
         this.erros = erros;
     }
-    
-    
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
 }
