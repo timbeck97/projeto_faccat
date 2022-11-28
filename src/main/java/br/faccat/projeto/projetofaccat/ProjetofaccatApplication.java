@@ -17,7 +17,7 @@ public class ProjetofaccatApplication implements WebMvcConfigurer{
         
         @Bean
         public BCryptPasswordEncoder passwordEncoder() {
-            System.out.println("ALTERADO 22:13");
+            System.out.println("ALTERADO 21:26 27/11/2022");
             return new BCryptPasswordEncoder();
         }
         @Override
