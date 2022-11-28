@@ -5,8 +5,11 @@
  */
 package br.faccat.projeto.projetofaccat.model;
 
+import br.faccat.projeto.projetofaccat.enums.EProductCategory;
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,20 +19,18 @@ import javax.persistence.Id;
  * @author tim
  */
 @Entity
-public class Role implements Serializable{
+public class Product implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
+    private String description;
+    @Enumerated(EnumType.STRING)
+    private EProductCategory category;
 
-    public Role() {
+    public Product() {
     }
 
-    public Role(String name) {
-        this.name = name;
-    }
-    
     public Long getId() {
         return id;
     }
@@ -38,12 +39,20 @@ public class Role implements Serializable{
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getDescription() {
+        return description;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public EProductCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(EProductCategory category) {
+        this.category = category;
     }
     
     

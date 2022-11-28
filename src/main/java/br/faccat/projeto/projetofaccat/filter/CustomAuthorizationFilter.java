@@ -11,6 +11,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
@@ -84,9 +85,10 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter{
                 catch(JWTDecodeException e){
                     handlerExceptionResolver.resolveException(request,response,null,new InvalidTokenException("The token is not a valid string"));
                 }
-                catch(Exception e){
-                    handlerExceptionResolver.resolveException(request,response,null,new InvalidTokenException("Error validating the token"));
+                catch(TokenExpiredException e){
+                    handlerExceptionResolver.resolveException(request,response,null,new InvalidTokenException("The token has expired"));
                 }
+               
             }else{
                 filterChain.doFilter(request, response);
             }
