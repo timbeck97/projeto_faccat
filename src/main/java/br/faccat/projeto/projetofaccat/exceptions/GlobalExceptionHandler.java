@@ -44,8 +44,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		ApiError err = new ApiError(LocalDateTime.now(),HttpStatus.UNAUTHORIZED, "Login ou senha incorreto" ,details);
 		return ResponseEntityBuilder.build(err);
 	}
-	@ExceptionHandler(SignatureVerificationException.class)
-	public ResponseEntity<?> handleWrongTokenException(Exception ex, WebRequest request) {
+        @ExceptionHandler(InvalidTokenException.class)
+	public ResponseEntity<?> InvalidTokenException(Exception ex, WebRequest request) {
 		List<String> details = new ArrayList<String>();
 		details.add(ex.getMessage());
 		ApiError err = new ApiError(LocalDateTime.now(),HttpStatus.UNAUTHORIZED, "Token Inválido" ,details);

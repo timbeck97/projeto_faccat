@@ -5,9 +5,11 @@
  */
 package br.faccat.projeto.projetofaccat.filter;
 
+import br.faccat.projeto.projetofaccat.exceptions.InvalidTokenException;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -76,14 +78,14 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter{
                     
                 }catch(SignatureVerificationException e){
                     log.error("Error loging in: {}",e.getMessage());
-                    handlerExceptionResolver.resolveException(request,response,null,e);
-                    // response.setHeader("error", e.getMessage());
-                    //response.setStatus(HttpStatus.FORBIDDEN.value());
-                    //Map<String, String> erros=new HashMap<>();
-                    //erros.put("error_message", e.getMessage());
-                    //response.setContentType(APPLICATION_JSON_VALUE);
+                    handlerExceptionResolver.resolveException(request,response,null,new InvalidTokenException("The token is not válid"));
 
-                    //new ObjectMapper().writeValue(response.getOutputStream(), erros);
+                }
+                catch(JWTDecodeException e){
+                    handlerExceptionResolver.resolveException(request,response,null,new InvalidTokenException("The token is not a valid string"));
+                }
+                catch(Exception e){
+                    handlerExceptionResolver.resolveException(request,response,null,new InvalidTokenException("Error validating the token"));
                 }
             }else{
                 filterChain.doFilter(request, response);
