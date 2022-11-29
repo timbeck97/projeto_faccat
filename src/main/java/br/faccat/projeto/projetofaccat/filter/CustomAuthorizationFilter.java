@@ -86,7 +86,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter{
                     handlerExceptionResolver.resolveException(request,response,null,new InvalidTokenException("The token is not a valid string"));
                 }
                 catch(TokenExpiredException e){
-                    handlerExceptionResolver.resolveException(request,response,null,new InvalidTokenException("The token has expired"));
+                    handlerExceptionResolver.resolveException(request,response,null,e);
                 }
                
             }else{

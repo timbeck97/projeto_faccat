@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.auth0.jwt.exceptions.SignatureVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +50,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		List<String> details = new ArrayList<String>();
 		details.add(ex.getMessage());
 		ApiError err = new ApiError(LocalDateTime.now(),HttpStatus.UNAUTHORIZED, "Token Inválido" ,details);
+		return ResponseEntityBuilder.build(err);
+	}
+        @ExceptionHandler(TokenExpiredException.class)
+	public ResponseEntity<?> TokenExpiredException(Exception ex, WebRequest request) {
+		List<String> details = new ArrayList<String>();
+		details.add(ex.getMessage());
+		ApiError err = new ApiError(LocalDateTime.now(),HttpStatus.valueOf(419), "Token Expirado" ,details);
 		return ResponseEntityBuilder.build(err);
 	}
 }
