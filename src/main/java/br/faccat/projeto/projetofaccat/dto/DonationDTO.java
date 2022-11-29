@@ -18,6 +18,8 @@ import java.util.List;
  * @author tim
  */
 public class DonationDTO implements Serializable {
+
+    private Long id;
     
     private String userName;
     
@@ -41,6 +43,7 @@ public class DonationDTO implements Serializable {
         this.status = d.getStatus();
         this.type = d.getType();
         this.itens=itens;
+        this.id=d.getId();
     }
 
 
@@ -90,6 +93,14 @@ public class DonationDTO implements Serializable {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
     
     

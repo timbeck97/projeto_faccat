@@ -21,7 +21,6 @@ import br.faccat.projeto.projetofaccat.service.DonationService;
 import io.swagger.annotations.Api;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,14 +55,16 @@ public class DonationController {
     @GetMapping
     public ResponseEntity<List<DonationDTO>> getDonations(){
       
-        
         return ResponseEntity.status(200).body(donationRepository.findAll().stream()
         .map(d->donationService.getDonationDTO(d))
         .collect(Collectors.toList()));
     }
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<Donation> getDonation(@PathVariable Long id){
-        return donationRepository.findById(id).map(p->ResponseEntity.status(200).body(p)).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
+    @GetMapping(value = "/{login}")
+    public ResponseEntity<List<DonationDTO>> getDonation(@PathVariable String login){
+        return ResponseEntity.status(200).body(donationRepository.findByLogin(login)
+        .stream()
+        .map(x->donationService.getDonationDTO(x))
+        .collect(Collectors.toList()));
        
     }
     
