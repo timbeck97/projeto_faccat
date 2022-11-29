@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author tim
  */
 @RestController
-@RequestMapping(value = "/api/products")
+@RequestMapping(value = "/products")
 @Api(value = "Rest API - Products")
 public class ProductController {
     

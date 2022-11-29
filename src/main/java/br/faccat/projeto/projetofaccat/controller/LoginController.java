@@ -42,7 +42,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
  * @author tim
  */
 @RestController
-@RequestMapping(value = "/api")
 @Api(value = "Rest API - Contribuintes")
 public class LoginController {
     

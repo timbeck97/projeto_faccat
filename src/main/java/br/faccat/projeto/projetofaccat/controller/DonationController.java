@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author tim
  */
 @RestController
-@RequestMapping(value = "/api/donations")
+@RequestMapping(value = "/donations")
 @Api(value = "Rest API - Donations")
 public class DonationController {
     
