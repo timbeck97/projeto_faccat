@@ -6,10 +6,12 @@
 package br.faccat.projeto.projetofaccat.controller;
 
 import br.faccat.projeto.projetofaccat.dto.ProductDTO;
+import br.faccat.projeto.projetofaccat.enums.EProductCategory;
 import br.faccat.projeto.projetofaccat.model.Product;
 import br.faccat.projeto.projetofaccat.repository.ProductRepository;
 import io.swagger.annotations.Api;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -40,22 +42,26 @@ public class ProductController {
     
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
-    public ResponseEntity<List<Product>> getProducts(){
-        return ResponseEntity.status(200).body(productRepository.findAll());
+    public ResponseEntity<List<ProductDTO>> getProducts(){
+        return ResponseEntity.status(200).body(productRepository.findAll()
+        .stream()
+        .map(x->new ProductDTO(x))
+        .collect(Collectors.toList()));
     }
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Product> getProducts(@PathVariable Long id){
-        return productRepository.findById(id).map(p->ResponseEntity.status(200).body(p)).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
+    public ResponseEntity<ProductDTO> getProducts(@PathVariable Long id){
+        return productRepository.findById(id).map(p->ResponseEntity.status(200).body(new ProductDTO(p))).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
        
     }
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
-    public ResponseEntity<Product> saveProduct(@RequestBody ProductDTO product){
+    public ResponseEntity<ProductDTO> saveProduct(@RequestBody ProductDTO product){
         Product p = new Product();
-        p.setCategory(product.getCategory());
+        p.setCategory(EProductCategory.valueOf(product.getCategory()));
         p.setDescription(product.getDescription());
-        return ResponseEntity.status(201).body(productRepository.save(p));
+        p.setEnabled(product.isEnabled());
+        return ResponseEntity.status(201).body(new ProductDTO(productRepository.save(p)));
     }
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping(value = "/{id}")

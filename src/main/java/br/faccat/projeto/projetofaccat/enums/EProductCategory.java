@@ -11,16 +11,26 @@ package br.faccat.projeto.projetofaccat.enums;
  */
 public enum EProductCategory {
     
-    ELETRODOMESTIC("ELETRODOMESTIC"),
-    TOYS("TOYS"),
-    CLOTHES("CLOTHES"),
-    KITCHEN("KITCHEN"),
-    BEDROOM("BEDROOM"),
-    FURNITURE("FURNITURE");
+    ELETRODOMESTIC("Eletrodoméstico"),
+    TOYS("Brinquedos"),
+    CLOTHES("Roupas"),
+    KITCHEN("Cozinha"),
+    BEDROOM("Quarto"),
+    FURNITURE("Mobília");
     
     
     EProductCategory(String description){
         this.description=description;
     }
     private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    
 }
