@@ -9,6 +9,7 @@ import br.faccat.projeto.projetofaccat.dto.DonationDTO;
 import br.faccat.projeto.projetofaccat.dto.ItemDonationDTO;
 import br.faccat.projeto.projetofaccat.dto.UserDTO;
 import br.faccat.projeto.projetofaccat.enums.EDonationStatus;
+import br.faccat.projeto.projetofaccat.exceptions.DataNotFoundException;
 import br.faccat.projeto.projetofaccat.model.Donation;
 import br.faccat.projeto.projetofaccat.model.ItemDonation;
 import br.faccat.projeto.projetofaccat.model.Product;
@@ -61,6 +62,10 @@ public class DonationController {
     }
     @GetMapping(value = "/{login}")
     public ResponseEntity<List<DonationDTO>> getDonation(@PathVariable String login){
+        User user=userRepository.findByUsername(login);
+        if(user==null){
+            throw new DataNotFoundException("User not found");
+        }
         return ResponseEntity.status(200).body(donationRepository.findByLogin(login)
         .stream()
         .map(x->donationService.getDonationDTO(x))
