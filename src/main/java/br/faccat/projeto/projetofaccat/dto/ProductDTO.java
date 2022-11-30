@@ -15,13 +15,13 @@ import br.faccat.projeto.projetofaccat.model.Product;
 public class ProductDTO {
     private Long id;
     private String description;
-    private String category;
+    private EProductCategory category;
     private boolean enabled;
     
     public ProductDTO() {
     }
 
-    public ProductDTO(String description, String category, boolean enabled) {
+    public ProductDTO(String description, EProductCategory category, boolean enabled) {
         this.description = description;
         this.category = category;
         this.enabled=enabled;
@@ -30,7 +30,7 @@ public class ProductDTO {
     public ProductDTO(Product p) {
         this.id = p.getId();
         this.description = p.getDescription();
-        this.category = p.getCategory().getDescription();
+        this.category = p.getCategory();
         this.enabled = p.isEnabled();
     }
     
@@ -50,11 +50,11 @@ public class ProductDTO {
         this.description = description;
     }
 
-    public String getCategory() {
+    public EProductCategory getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(EProductCategory category) {
         this.category = category;
     }
 

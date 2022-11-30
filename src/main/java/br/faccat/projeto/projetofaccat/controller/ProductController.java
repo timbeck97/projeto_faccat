@@ -58,7 +58,7 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<ProductDTO> saveProduct(@RequestBody ProductDTO product){
         Product p = new Product();
-        p.setCategory(EProductCategory.valueOf(product.getCategory()));
+        p.setCategory(product.getCategory());
         p.setDescription(product.getDescription());
         p.setEnabled(product.isEnabled());
         return ResponseEntity.status(201).body(new ProductDTO(productRepository.save(p)));

@@ -39,7 +39,7 @@ public class Product implements Serializable{
     public Product(ProductDTO p) {
         this.id=p.getId();
         this.description = p.getDescription();
-        this.category = EProductCategory.valueOf(p.getCategory());
+        this.category = p.getCategory();
         this.enabled = p.isEnabled();
     }
     
