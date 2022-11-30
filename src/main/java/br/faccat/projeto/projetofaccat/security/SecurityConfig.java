@@ -10,6 +10,7 @@ import br.faccat.projeto.projetofaccat.filter.CustomAuthenticationFilter;
 import br.faccat.projeto.projetofaccat.filter.CustomAuthorizationFilter;
 import br.faccat.projeto.projetofaccat.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -37,7 +38,8 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-
+    @Value("${token.expiration.minutes}")
+    private String tokenExpiration;
     private UserRepository userRepository;
     private final HandlerExceptionResolver handlerExceptionResolver;
     private final UserDetailsService userDetailsService;
@@ -73,7 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Override
     protected void configure(HttpSecurity http) throws Exception{
-        CustomAuthenticationFilter customAuthenticationFilter=new CustomAuthenticationFilter(authenticationManagerBean(), userRepository,handlerExceptionResolver);
+        CustomAuthenticationFilter customAuthenticationFilter=new CustomAuthenticationFilter(authenticationManagerBean(), userRepository,handlerExceptionResolver,tokenExpiration);
         customAuthenticationFilter.setFilterProcessesUrl("/login");
         http.cors();
         http.csrf().disable();

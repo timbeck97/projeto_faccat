@@ -22,9 +22,11 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -45,11 +47,15 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
      private UserRepository userRepository;
      private final AuthenticationManager authenticationManager;
      private final HandlerExceptionResolver handlerExceptionResolver;
+     
+     
+     private String tokenExpiration;
 
-    public CustomAuthenticationFilter(AuthenticationManager authenticationManager, UserRepository userRepository, HandlerExceptionResolver handlerExceptionResolver) {
+    public CustomAuthenticationFilter(AuthenticationManager authenticationManager, UserRepository userRepository, HandlerExceptionResolver handlerExceptionResolver, String tokenExpiration) {
         this.authenticationManager = authenticationManager;
         this.userRepository=userRepository;
         this.handlerExceptionResolver=handlerExceptionResolver;
+        this.tokenExpiration=tokenExpiration;
     }
     
     
@@ -80,16 +86,17 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException{
         User user = (User)authentication.getPrincipal();
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+        System.out.println("token expiration: "+tokenExpiration);
         String access_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis()+1*1*1000))
+                .withExpiresAt(new Date(System.currentTimeMillis()+Integer.valueOf(tokenExpiration)*60*1000))
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 
                 .sign(algorithm);
         String refresh_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis()+60*60*1000))
+                .withExpiresAt(new Date(System.currentTimeMillis()+Integer.valueOf(tokenExpiration)*2*60*1000))
                 .withClaim("refreshToken", Boolean.TRUE)
                 .withIssuer(request.getRequestURL().toString())
                 .sign(algorithm);
