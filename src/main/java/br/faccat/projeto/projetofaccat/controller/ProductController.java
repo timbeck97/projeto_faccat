@@ -12,6 +12,7 @@ import io.swagger.annotations.Api;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,17 +38,18 @@ public class ProductController {
         this.productRepository=productRepository;
     }
     
-    
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public ResponseEntity<List<Product>> getProducts(){
         return ResponseEntity.status(200).body(productRepository.findAll());
     }
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<Product> getProducts(@PathVariable Long id){
         return productRepository.findById(id).map(p->ResponseEntity.status(200).body(p)).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
        
     }
-    
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public ResponseEntity<Product> saveProduct(@RequestBody ProductDTO product){
         Product p = new Product();
@@ -55,7 +57,7 @@ public class ProductController {
         p.setDescription(product.getDescription());
         return ResponseEntity.status(201).body(productRepository.save(p));
     }
-    
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<Product> saveProduct(@PathVariable Long id, @RequestParam(required = true) boolean enable){
         Product p = productRepository.findById(id).get();
