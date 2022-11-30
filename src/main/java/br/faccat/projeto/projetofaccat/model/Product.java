@@ -7,6 +7,7 @@ package br.faccat.projeto.projetofaccat.model;
 
 import br.faccat.projeto.projetofaccat.enums.EProductCategory;
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -27,6 +28,9 @@ public class Product implements Serializable{
     private String description;
     @Enumerated(EnumType.STRING)
     private EProductCategory category;
+    
+    @Column(columnDefinition = "boolean not null default false")
+    private boolean enabled;
 
     public Product() {
     }
@@ -53,6 +57,14 @@ public class Product implements Serializable{
 
     public void setCategory(EProductCategory category) {
         this.category = category;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
     
     
