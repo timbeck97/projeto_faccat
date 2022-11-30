@@ -46,10 +46,10 @@ public class Donation implements Serializable{
     @NotNull
     private EDonationStatus status;
     
-    @Column(nullable = false, length = 50)
-    @Enumerated(EnumType.STRING)
-    @NotNull
-    private EDonationType type;
+//    @Column(nullable = false, length = 50)
+//    @Enumerated(EnumType.STRING)
+//    @NotNull
+//    private EDonationType type;
 
     public Donation() {
     }
@@ -94,13 +94,13 @@ public class Donation implements Serializable{
         this.status = status;
     }
 
-    public EDonationType getType() {
-        return type;
-    }
-
-    public void setType(EDonationType type) {
-        this.type = type;
-    }
+//    public EDonationType getType() {
+//        return type;
+//    }
+//
+//    public void setType(EDonationType type) {
+//        this.type = type;
+//    }
     
     
     

@@ -29,7 +29,7 @@ public class DonationDTO implements Serializable {
     
     private EDonationStatus status;
     
-    private EDonationType type;
+//    private EDonationType type;
     
     private List<ItemDonationDTO> itens;
     
@@ -41,7 +41,7 @@ public class DonationDTO implements Serializable {
         this.requestDate = d.getRequestDate();
         this.donationDate = d.getDonationDate();
         this.status = d.getStatus();
-        this.type = d.getType();
+//        this.type = d.getType();
         this.itens=itens;
         this.id=d.getId();
     }
@@ -71,13 +71,13 @@ public class DonationDTO implements Serializable {
         this.status = status;
     }
 
-    public EDonationType getType() {
-        return type;
-    }
-
-    public void setType(EDonationType type) {
-        this.type = type;
-    }
+//    public EDonationType getType() {
+//        return type;
+//    }
+//
+//    public void setType(EDonationType type) {
+//        this.type = type;
+//    }
 
     public List<ItemDonationDTO> getItens() {
         return itens;

@@ -79,7 +79,7 @@ public class DonationController {
         d.setDonationDate(donation.getDonationDate());
         d.setRequestDate(donation.getRequestDate());
         d.setStatus(EDonationStatus.APPROVED);
-        d.setType(donation.getType());
+//        d.setType(donation.getType());
         User user=userRepository.findByUsername(donation.getUserName());
         d.setUser(user);
         d=donationRepository.save(d);
