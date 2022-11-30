@@ -70,5 +70,12 @@ public class ProductController {
         p.setEnabled(enable);
         return ResponseEntity.status(201).body(productRepository.save(p));
     }
+    @GetMapping(value = "/donation")
+    public ResponseEntity<List<ProductDTO>> getProductsToDonation(){
+        return ResponseEntity.status(200).body(productRepository.findByEnabled(true)
+        .stream()
+        .map(x->new ProductDTO(x))
+        .collect(Collectors.toList()));
+    }
     
 }
