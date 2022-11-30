@@ -85,7 +85,7 @@ public class DonationController {
         d=donationRepository.save(d);
 
         for(ItemDonationDTO item: donation.getItens()){
-            ItemDonation newItem=new ItemDonation(item.getProduct(), d, item.getQuantity());
+            ItemDonation newItem=new ItemDonation(new Product(item.getProduct()), d, item.getQuantity());
             itemDonationRepository.save(newItem);
         }
         

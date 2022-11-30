@@ -5,6 +5,7 @@
  */
 package br.faccat.projeto.projetofaccat.model;
 
+import br.faccat.projeto.projetofaccat.dto.ProductDTO;
 import br.faccat.projeto.projetofaccat.enums.EProductCategory;
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -35,6 +36,13 @@ public class Product implements Serializable{
     public Product() {
     }
 
+    public Product(ProductDTO p) {
+        this.id=p.getId();
+        this.description = p.getDescription();
+        this.category = EProductCategory.valueOf(p.getCategory());
+        this.enabled = p.isEnabled();
+    }
+    
     public Long getId() {
         return id;
     }

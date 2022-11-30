@@ -14,7 +14,7 @@ import br.faccat.projeto.projetofaccat.model.Product;
  */
 public class ItemDonationDTO {
    
-    private Product product;
+    private ProductDTO product;
     
     private int quantity;
 
@@ -23,15 +23,15 @@ public class ItemDonationDTO {
    
     
     public ItemDonationDTO(ItemDonation i) {
-        this.product=i.getProduct();
+        this.product=new ProductDTO(i.getProduct());
         this.quantity=i.getQuantity();
     }
 
-    public Product getProduct() {
+    public ProductDTO getProduct() {
         return product;
     }
 
-    public void setProduct(Product product) {
+    public void setProduct(ProductDTO product) {
         this.product = product;
     }
 
