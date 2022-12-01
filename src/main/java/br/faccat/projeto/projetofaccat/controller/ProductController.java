@@ -46,6 +46,7 @@ public class ProductController {
         return ResponseEntity.status(200).body(productRepository.findAll()
         .stream()
         .map(x->new ProductDTO(x))
+        .sorted((x,y)->x.getId().compareTo(y.getId()))
         .collect(Collectors.toList()));
     }
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -75,6 +76,7 @@ public class ProductController {
         return ResponseEntity.status(200).body(productRepository.findByEnabled(true)
         .stream()
         .map(x->new ProductDTO(x))
+        .sorted((x,y)->x.getId().compareTo(y.getId()))
         .collect(Collectors.toList()));
     }
     

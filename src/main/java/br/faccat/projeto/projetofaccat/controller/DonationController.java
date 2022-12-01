@@ -26,6 +26,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,6 +59,7 @@ public class DonationController {
       
         return ResponseEntity.status(200).body(donationRepository.findAll().stream()
         .map(d->donationService.getDonationDTO(d))
+        .sorted((x,y)->x.getId().compareTo(y.getId()))
         .collect(Collectors.toList()));
     }
     @GetMapping(value = "/{login}")
@@ -78,7 +80,7 @@ public class DonationController {
         Donation d=new Donation();
         d.setDonationDate(donation.getDonationDate());
         d.setRequestDate(donation.getRequestDate());
-        d.setStatus(EDonationStatus.APPROVED);
+        d.setStatus(EDonationStatus.PENDING);
 //        d.setType(donation.getType());
         User user=userRepository.findByUsername(donation.getUserName());
         d.setUser(user);
@@ -91,6 +93,14 @@ public class DonationController {
         
         
         return ResponseEntity.status(201).body(donationService.getDonationDTO(d));
+    }
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<DonationDTO> confirmDonation(@PathVariable Long id){
+       Donation d=donationRepository.findById(id).get();
+       d.setStatus(EDonationStatus.CONCLUDED);
+       
+        
+        return ResponseEntity.status(201).body(donationService.getDonationDTO(donationRepository.save(d)));
     }
     
     
