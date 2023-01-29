@@ -22,7 +22,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import javassist.NotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -31,9 +33,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -57,7 +61,12 @@ public class LoginController {
        List<UserDTO> dtos= userService.getUsers().stream().map(user->new UserDTO(user)).collect(Collectors.toList());
        return ResponseEntity.ok().body(dtos);
     }
-    
+    @GetMapping(value = "/users/{login}")
+    @ApiOperation(value = "Retorna uma lista com todos os usuarios cadastrados no banco de dados")
+    public ResponseEntity<UserDTO> getUser(@PathVariable String login){
+       UserDTO dtos= Optional.of(userService.getUser(login)).map(user->new UserDTO(user)).orElse(null);
+       return ResponseEntity.ok().body(dtos);
+    }
     @PostMapping(value = "/signin")
     @ApiOperation(value = "Adiciona um usuario no banco de dados")
     public ResponseEntity<UserDTO> saveUser(@RequestBody User user){
@@ -89,13 +98,17 @@ public class LoginController {
     @ApiOperation(value = "Solicita um novo token a partir do refresh token")
     @GetMapping(value = "/token/refreshtoken")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        String authorizationHeader=request.getHeader(AUTHORIZATION);
-            if(authorizationHeader !=null && authorizationHeader.startsWith("Bearer ")){
+            Long token_exp=System.currentTimeMillis()+(Integer.valueOf(30)*1*1000);
+            
+            String refresh_token=request.getHeader("Authorization");
+            String token=refresh_token.split("Bearer")[1].trim();
+            
+            
+            if(refresh_token !=null){
                 try{
-                    String refresh_token = authorizationHeader.substring("Bearer ".length());
                     Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
                     JWTVerifier verifier=JWT.require(algorithm).build();
-                    DecodedJWT decodedJWT = verifier.verify(refresh_token);
+                    DecodedJWT decodedJWT = verifier.verify(token);
                     
                     String username=decodedJWT.getSubject();
                     String isRefreshToken=decodedJWT.getClaim("refreshToken").as(String.class);
@@ -105,14 +118,14 @@ public class LoginController {
                     User user=userService.getUser(username);
                     String access_token = JWT.create()
                         .withSubject(user.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis()+10*60*1000))
+                        .withExpiresAt(new Date(token_exp))
                         .withIssuer(request.getRequestURL().toString())
                         .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
                         .sign(algorithm);
                    
                     Map<String, String> tokens=new HashMap<>();
                     tokens.put("access_token", access_token);
-                    tokens.put("refresh_token", refresh_token);
+                    tokens.put("access_token_expiration",String.valueOf(token_exp));
                     response.setContentType(APPLICATION_JSON_VALUE);
                     new ObjectMapper().writeValue(response.getOutputStream(), tokens);
                     

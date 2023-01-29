@@ -87,16 +87,20 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         User user = (User)authentication.getPrincipal();
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
         System.out.println("token expiration: "+tokenExpiration);
+        //Long token_exp=System.currentTimeMillis()+(Integer.valueOf(tokenExpiration)*60*1000);
+        Long token_exp=System.currentTimeMillis()+(Integer.valueOf(tokenExpiration)*60*1000);
+        Long token_ref_exp=System.currentTimeMillis()+(Integer.valueOf(tokenExpiration)*2*60*1000);
+        
         String access_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis()+Integer.valueOf(tokenExpiration)*60*1000))
+                .withExpiresAt(new Date(token_exp))
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 
                 .sign(algorithm);
         String refresh_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis()+Integer.valueOf(tokenExpiration)*2*60*1000))
+                .withExpiresAt(new Date(token_ref_exp))
                 .withClaim("refreshToken", Boolean.TRUE)
                 .withIssuer(request.getRequestURL().toString())
                 .sign(algorithm);
@@ -104,11 +108,13 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         
         Map<String, String> tokens=new HashMap<>();
         tokens.put("access_token", access_token);
+        tokens.put("access_token_expiration", String.valueOf(token_exp));
+        tokens.put("refresh_token_expiration",String.valueOf(token_ref_exp));
         tokens.put("refresh_token", refresh_token);
         response.setContentType(APPLICATION_JSON_VALUE);
         this.liberacaoCors(response);
-        UserLoginDTO dto=new UserLoginDTO(userRepository.findByUsername(user.getUsername()),access_token, refresh_token);
-        new ObjectMapper().writeValue(response.getOutputStream(), dto);
+        //UserLoginDTO dto=new UserLoginDTO(userRepository.findByUsername(user.getUsername()),access_token, refresh_token);
+        new ObjectMapper().writeValue(response.getOutputStream(), tokens);
 
         
     }
