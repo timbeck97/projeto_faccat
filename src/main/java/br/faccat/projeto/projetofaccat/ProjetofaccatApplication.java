@@ -1,5 +1,9 @@
 package br.faccat.projeto.projetofaccat;
 
+import br.faccat.projeto.projetofaccat.configuration.RabbitMqConfiguration;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +14,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-public class ProjetofaccatApplication implements WebMvcConfigurer{
+public class ProjetofaccatApplication implements CommandLineRunner {
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProjetofaccatApplication.class, args);
@@ -21,12 +26,10 @@ public class ProjetofaccatApplication implements WebMvcConfigurer{
             System.out.println("ALTERADO 21:26 27/11/2022");
             return new BCryptPasswordEncoder();
         }
-        @Override
-        public void addCorsMappings(CorsRegistry registry) {
-            registry.addMapping("/**")
-                    .allowedMethods("*")
-                    .allowedOrigins("*");
-        }
-         
 
+
+    @Override
+    public void run(String... args) throws Exception {
+
+    }
 }

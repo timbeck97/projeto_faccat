@@ -65,12 +65,7 @@
             <version>1.18.20</version>
             <type>jar</type>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.apache.tomcat</groupId>-->
-<!--            <artifactId>tomcat-jdbc</artifactId>-->
-<!--            <version>8.5.27</version>-->
-<!--            <type>jar</type>-->
-<!--        </dependency>-->
+
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
@@ -86,6 +81,16 @@
             <artifactId>validation-api</artifactId>
             <version>2.0.1.Final</version>
             <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-amqp</artifactId>
+            <version>2.4.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit</artifactId>
+            <version>2.4.7</version>
         </dependency>
     </dependencies>
 
