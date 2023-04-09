@@ -12,6 +12,10 @@ import br.faccat.projeto.projetofaccat.repository.ProductRepository;
 import io.swagger.annotations.Api;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -48,6 +52,16 @@ public class ProductController {
         .map(x->new ProductDTO(x))
         .sorted((x,y)->x.getId().compareTo(y.getId()))
         .collect(Collectors.toList()));
+    }
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping(value = "/paginated")
+    public ResponseEntity<List<ProductDTO>> getProductsPaginated(@RequestParam("page")Integer pageNumber,@RequestParam("size")Integer size, @RequestParam("sort")String sort){
+        Pageable page = PageRequest.of(pageNumber,size, Sort.Direction.valueOf(sort.toUpperCase()),"id");
+        return ResponseEntity.status(200).body(productRepository.findAll(page)
+                .stream()
+                .map(x->new ProductDTO(x))
+                .sorted((x,y)->x.getId().compareTo(y.getId()))
+                .collect(Collectors.toList()));
     }
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(value = "/{id}")

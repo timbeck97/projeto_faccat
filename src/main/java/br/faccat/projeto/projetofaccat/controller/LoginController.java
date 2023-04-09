@@ -73,12 +73,7 @@ public class LoginController {
         URI uri=URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
         return ResponseEntity.created(uri).body(new UserDTO(userService.saveUser(user)));
     }
-    
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping(value = "/teste")
-    public String test(){
-        return "TESTE";
-    }
+
     
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = "/role")

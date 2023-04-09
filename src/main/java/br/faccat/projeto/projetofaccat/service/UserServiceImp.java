@@ -62,8 +62,11 @@ public class UserServiceImp implements UserService, UserDetailsService {
     }
     @Override
     public User saveUser(User user) {
-        log.info("Saving new address");
-        user.setAddress(addressRepository.save(user.getAddress()));
+
+        if(user.getAddress()!=null){
+            log.info("Saving new address");
+            user.setAddress(addressRepository.save(user.getAddress()));
+        }
         log.info("Saving new user {} to database",user.getUsername());
         Role role=roleRepository.findByName("USER");
         user.setRoles(new HashSet<Role>(Arrays.asList(role)));

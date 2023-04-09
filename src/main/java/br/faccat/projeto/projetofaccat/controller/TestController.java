@@ -1,6 +1,6 @@
 package br.faccat.projeto.projetofaccat.controller;
 
-import br.faccat.projeto.projetofaccat.configuration.RabbitMqConfiguration;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +16,17 @@ public class TestController {
     private RabbitTemplate rabbitTemplate;
 
 
-    @PostMapping
+    @PostMapping(value = "/email")
     public ResponseEntity<String> sendMessage(@RequestBody String msg){
         System.out.println();
-        rabbitTemplate.convertAndSend(RabbitMqConfiguration.EXCHANGE_NAME, "", msg);
+        rabbitTemplate.send("EMAIL_QUEUE", new Message(msg.getBytes()));
+
+        return ResponseEntity.ok("ok");
+    }
+    @PostMapping(value = "/report")
+    public ResponseEntity<String> sendMessageReport(@RequestBody String msg){
+        System.out.println();
+        rabbitTemplate.send("REPORT_QUEUE", new Message(msg.getBytes()));
 
         return ResponseEntity.ok("ok");
     }

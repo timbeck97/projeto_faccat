@@ -7,4 +7,19 @@ insert into user_table(id, name, password, username, address_id) values (2, 'Tim
 
 insert into user_table_roles(user_id, roles_id) values (2,3), (2,4);
 
+insert into product(id,description, category, enabled) values(1,'TV','ELETRODOMESTIC', true),
+(2,'FOGAO','ELETRODOMESTIC', true),
+(3,'GELADEIRA','ELETRODOMESTIC', true),
+(4,'TORRADEIRA','ELETRODOMESTIC', true),
+(5,'SOM','ELETRODOMESTIC', true),
+(6,'HOME THEATER','ELETRODOMESTIC', true),
+(7,'BATEDEIRA','ELETRODOMESTIC', true),
+(8,'LIQUIDIFICADOR','ELETRODOMESTIC', true),
+(9,'FORNO','ELETRODOMESTIC', true),
+(10,'SOFA','FURNITURE', true),
+(11,'CAMA','FURNITURE', true),
+(12,'ARMARIO','FURNITURE', true),
+(13,'GUARDA ROUPA','FURNITURE', true);
+
+
 
